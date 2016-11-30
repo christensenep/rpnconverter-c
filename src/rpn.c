@@ -85,8 +85,6 @@ char* infix_to_postfix(char* infixString) {
   char currentCharacter;
   for (currentCharacter = *infixString; currentCharacter != '\0'; infixString++, currentCharacter = *infixString) {
     if (isOperator(currentCharacter)) {
-      
-
       for (char lastOperator = operatorStack_peek(&operatorStack);
            getPriority(lastOperator) >= getPriority(currentCharacter);
            lastOperator = operatorStack_peek(&operatorStack)) {
