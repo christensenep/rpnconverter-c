@@ -61,6 +61,17 @@ int isOperator(char character) {
   }
 };
 
+int getPriority(char operator) {
+  int priority = 0;
+  while (_operators[priority] != '\0') {
+    if (_operators[priority] == operator) {
+      return priority;
+    }
+    priority++;
+  }
+  return -1;
+};
+
 char* infix_to_postfix(char* infixString) {
   OperatorStack operatorStack;
   operatorStack_initStack(&operatorStack);
@@ -74,14 +85,25 @@ char* infix_to_postfix(char* infixString) {
   char currentCharacter;
   for (currentCharacter = *infixString; currentCharacter != '\0'; infixString++, currentCharacter = *infixString) {
     if (isOperator(currentCharacter)) {
-      char lastOperator = operatorStack_peek(&operatorStack);
+      
 
-      if (lastOperator == currentCharacter) {
+      for (char lastOperator = operatorStack_peek(&operatorStack);
+           getPriority(lastOperator) >= getPriority(currentCharacter);
+           lastOperator = operatorStack_peek(&operatorStack)) {
         operatorStack_pop(&operatorStack);
         expression_addChar(&postfixExpression, lastOperator);
       }
 
       operatorStack_push(&operatorStack, currentCharacter);
+    }
+    else if (currentCharacter == '(') {
+      operatorStack_push(&operatorStack, currentCharacter);
+    }
+    else if (currentCharacter == ')') {
+      char poppedOperator;
+      while((poppedOperator = operatorStack_pop(&operatorStack)) != '(') {
+        expression_addChar(&postfixExpression, poppedOperator);
+      }
     }
     else {
       expression_addChar(&postfixExpression, currentCharacter);
