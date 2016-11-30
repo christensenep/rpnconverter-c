@@ -2,9 +2,27 @@
 #include <stdlib.h>
 #include "../src/rpn.h"
 
-START_TEST(test_infix_to_postfix_empty_string)
+START_TEST(i2p_should_convert_empty_string_to_empty_string)
 {
-    ck_assert_str_eq(infix_to_postfix(""), "");
+    char* output = infix_to_postfix("");
+    ck_assert_str_eq(output, "");
+    //free(output);
+}
+END_TEST
+
+START_TEST(i2p_should_convert_single_operand)
+{
+    char* output = infix_to_postfix("a");
+    ck_assert_str_eq(output, "a");
+    //free(output);
+}
+END_TEST
+
+START_TEST(i2p_should_convert_single_operator)
+{
+    char* output = infix_to_postfix("a+b");
+    ck_assert_str_eq(output, "ab+");
+    free(output);
 }
 END_TEST
 
@@ -17,7 +35,9 @@ Suite* rpn_suite(void)
 
     tc_infix_to_postfix = tcase_create("Infix To Postfix");
 
-    tcase_add_test(tc_infix_to_postfix, test_infix_to_postfix_empty_string);
+    tcase_add_test(tc_infix_to_postfix, i2p_should_convert_empty_string_to_empty_string);
+    tcase_add_test(tc_infix_to_postfix, i2p_should_convert_single_operand);
+    tcase_add_test(tc_infix_to_postfix, i2p_should_convert_single_operator);
     suite_add_tcase(s, tc_infix_to_postfix);
 
     return s;
@@ -32,7 +52,7 @@ int main(void)
     s = rpn_suite();
     sr = srunner_create(s);
 
-    srunner_run_all(sr, CK_NORMAL);
+    srunner_run_all(sr, CK_VERBOSE);
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
