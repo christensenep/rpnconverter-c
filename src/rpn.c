@@ -15,7 +15,7 @@ typedef struct _Expression {
 void expression_init(Expression* expression) {
   expression->size = 5;
   expression->pos = 0;
-  expression->string = malloc(sizeof(char) * expression->size);
+  expression->string = calloc(expression->size, sizeof(char));
 };
 
 void expression_delete(Expression* expression) {
