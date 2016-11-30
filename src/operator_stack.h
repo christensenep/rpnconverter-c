@@ -10,9 +10,9 @@ typedef struct _OperatorStack {
   Node* top;
 } OperatorStack;
 
-
-void operatorStack_initStack(OperatorStack);
-void operatorStack_push(OperatorStack, char);
-char operatorStack_pop(OperatorStack);
+void operatorStack_initStack(OperatorStack*);
+void operatorStack_push(OperatorStack*, char);
+char operatorStack_pop(OperatorStack*);
+char operatorStack_peek(OperatorStack*);
 
 #endif /* OPERATOR_STACK_H */

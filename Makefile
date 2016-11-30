@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -O0 -g
-LIBS=-lcheck -lm -lpthread -lrt
+LIBS=-lcheck -lm -lpthread
 
 SRCDIR=src
 TESTDIR=tests
